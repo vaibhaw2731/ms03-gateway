@@ -1,12 +1,18 @@
 Creating VM running Jenkins:
-*Create new VM instance.
-*Select N2 machine configuration for faster computation
-*Boot disk as Ubuntu-18.04 LTS with SSD of 64 GB is used.
-*Under Identity and API access Select
-Allow full access to all Cloud APIs
-\*After the VM is created: 1. Install Java (Update and install Java)
-sudo apt update
-sudo apt install openjdk-8-jdk
+
+	-Create new VM instance.
+
+	-Select N2 machine configuration for faster computation
+
+	-Boot disk as Ubuntu-18.04 LTS with SSD of 64 GB is used.
+
+	-Under Identity and API access Select
+			Allow full access to all Cloud APIs
+
+	-After the VM is created: 
+		1. Install Java (Update and install Java)
+				sudo apt update
+				sudo apt install openjdk-8-jdk
 
     	2. Jenkins
     		( https://linuxize.com/post/how-to-install-jenkins-on-ubuntu-18-04/ )
@@ -65,29 +71,60 @@ sudo apt install openjdk-8-jdk
     			kubectl version
 
 Creating a kubernetes engine:
-*Select kubernetes engine on GCP console.
-*Give name to the cluster
-_Mention the number of nodes : default-3  
+
+	-Select kubernetes engine on GCP console.
+
+	-Give name to the cluster
+
+	-Mention the number of nodes : default-3  
 
 Deploying application on kubernetes cluster from your local computer:
-_ Create the jhipster application with mongodb.
-_ Inside the application folder run "jhipster kubernetes" : 1. Give a valid name to the kubernetes namespace. 2. Put Docker repository name as the username of your docker hub a/c.
-_ Inside the application folder run the following command for docker build :
-mvnw -ntp -Pprod verify jib:dockerBuild
-_ Tag your application with docker image name using the following command
-docker image tag <tagnane> vaibhaw2731/<tagename>
-_ Push your docker image
-docker push vaibhaw2731/<tagname>
-_ Connect your local computer to the gcp kubernetes using the command in connect to the cluster
-For example : gcloud container clusters get-credentials vaiagraw-kubernetes1 --zone us-central1-a --project payment-platform-204588
-_ Inside the application folder run the following command to deploy the application:
-sh kubectl-apply.sh
-_ The application will be deployed on the kubernetes engine.
-_ Go to services & Ingress in the sidebar to see the external ip of the application.
+
+	-Create the jhipster application with mongodb.
+
+	-Inside the application folder run "jhipster kubernetes" : 
+
+		1. Give a valid name to the kubernetes namespace. 
+
+		2. Put Docker repository name as the username of your docker hub a/c.
+
+	-Inside the application folder run the following command for docker build :
+
+		mvnw -ntp -Pprod verify jib:dockerBuild
+
+	-Tag your application with docker image name using the following command
+
+		docker image tag <tagnane> vaibhaw2731/<tagename>
+
+	-Push your docker image
+
+		docker push vaibhaw2731/<tagname>
+
+	-Connect your local computer to the gcp kubernetes using the command in connect to the cluster
+
+		For example : gcloud container clusters get-credentials vaiagraw-kubernetes1 --zone us-central1-a --project payment-platform-204588
+
+	-Inside the application folder run the following command to deploy the application:
+
+		sh kubectl-apply.sh
+
+	-The application will be deployed on the kubernetes engine.
+
+	-Go to services & Ingress in the sidebar to see the external ip of the application.
+
 
 Deploying application on kubernetes cluster through Jenkins pipeline:
-_ Create the jhipster application with mongodb.
-_ Inside the application folder run "jhipster kubernetes" : 1. Give a valid name to the kubernetes namespace. 2. Put Docker repository name as the username of your docker hub a/c. \* Upload the application folder to the github repository.
+
+	-Create the jhipster application with mongodb.
+
+	-Inside the application folder run "jhipster kubernetes" : 
+
+		1. Give a valid name to the kubernetes namespace. 
+
+		2. Put Docker repository name as the username of your docker hub a/c. 
+
+	-Upload the application folder to the github repository.
+
 
     Jenkins pipeline :
     	node{
@@ -137,26 +174,28 @@ _ Inside the application folder run "jhipster kubernetes" : 1. Give a valid name
 }
 
 For example:  
-node{
-  
- stage("Git clone"){
-  
- git credentialsId: 'GIT_CREDENTIALS', url: 'https://github.com/vaibhaw2731/ms03-gateway.git'
-  
- }
-  
- stage("Maven clean build"){
-  
- def mavenHome = tool name:"Maven-3.6.2",type:"maven"
-def mavenCMD="${mavenHome}/bin/mvn clean package"
-        
+	node{
+
+    stage("Git clone"){
+
+        git credentialsId: 'GIT_CREDENTIALS', url: 'https://github.com/vaibhaw2731/ms03-gateway.git'
+
+    }
+
+    stage("Maven clean build"){
+
+        def mavenHome = tool name:"Maven-3.6.2",type:"maven"
+        def mavenCMD="${mavenHome}/bin/mvn clean package"
+
         sh "${mavenCMD}"
-}
-  
- stage("Build docker image"){
-  
- def mavenHome = tool name:"Maven-3.6.2",type:"maven"
-def mavenCMD="\${mavenHome}/bin/mvn -ntp -Pprod verify jib:dockerBuild"
+    }
+
+    stage("Build docker image"){
+
+                def mavenHome = tool name:"Maven-3.6.2",type:"maven"
+                def mavenCMD="${mavenHome}/bin/mvn -ntp -Pprod verify jib:dockerBuild"
+
+
 
                 sh "${mavenCMD}"
             }
