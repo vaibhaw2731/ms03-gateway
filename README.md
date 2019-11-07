@@ -126,7 +126,9 @@ Deploying application on kubernetes cluster through Jenkins pipeline:
 	-Upload the application folder to the github repository.
 
 
-    Jenkins pipeline :
+
+Jenkins pipeline :
+
     	node{
 
     stage("Git clone"){
@@ -174,6 +176,7 @@ Deploying application on kubernetes cluster through Jenkins pipeline:
 }
 
 For example:  
+
 	node{
 
     stage("Git clone"){
@@ -217,5 +220,4 @@ For example:
         sh "gcloud container clusters get-credentials vaiagraw-kubernetes1 --zone us-central1-a --project payment-platform-204588"
         sh "sh kubectl-apply.sh"
     }
-
 }
