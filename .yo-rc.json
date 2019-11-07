@@ -34,6 +34,16 @@
     "dtoSuffix": "DTO",
     "otherModules": [],
     "enableTranslation": false,
-    "blueprints": []
+    "blueprints": [],
+    "appsFolders": ["ms03-gateway"],
+    "directoryPath": "../",
+    "clusteredDbApps": [],
+    "dockerRepositoryName": "vaibhaw2731",
+    "dockerPushCommand": "docker push",
+    "kubernetesNamespace": "default",
+    "kubernetesServiceType": "LoadBalancer",
+    "ingressDomain": "",
+    "monitoring": "no",
+    "istio": false
   }
 }
